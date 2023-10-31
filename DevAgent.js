@@ -11,7 +11,9 @@ const { ConversationChain } = require("langchain/chains");
 
 const { OpenAI } = require("langchain/llms/openai");
 
-const OPENAI_API_KEY = "";
+require("dotenv").config();
+
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
 class DevAgent {
   constructor(name, initialPrompt) {
@@ -34,9 +36,13 @@ class DevAgent {
 
     this.chatPrompt = ChatPromptTemplate.fromMessages([
       SystemMessagePromptTemplate.fromTemplate(
-        initialPrompt + " Your named is " + this.name 
-        + ". Your tone is " + this.agent_tone +
-          ". Your characteristic is " + this.agent_characteristic
+        initialPrompt +
+          " Your named is " +
+          this.name +
+          ". Your tone is " +
+          this.agent_tone +
+          ". Your characteristic is " +
+          this.agent_characteristic
       ),
       new MessagesPlaceholder("history"),
       HumanMessagePromptTemplate.fromTemplate("{input}"),
