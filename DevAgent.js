@@ -14,8 +14,9 @@ const { OpenAI } = require("langchain/llms/openai");
 const OPENAI_API_KEY = "";
 
 class DevAgent {
-  constructor(name) {
+  constructor(name, initialPrompt) {
     this.name = name;
+    this.initialPrompt = initialPrompt; //"I want you to act as a designer in a software company. You are responsible for the designing phase in agile software development cycle. The user will discuss design decisions with you and your goal is to provide feedback and suggestions."
     this.agent_tone = "friendly";
     this.agent_characteristic = "Quiet";
 
@@ -33,12 +34,9 @@ class DevAgent {
 
     this.chatPrompt = ChatPromptTemplate.fromMessages([
       SystemMessagePromptTemplate.fromTemplate(
-        "I want you to act as a designer in a software company. You are responsible for the designing phase in agile software development cycle. The user will discuss design decisions with you and your goal is to provide feedback and suggestions. Your named is " +
-          this.name +
-          ". Your tone is " +
-          this.agent_tone +
-          ". Your characteristic is " +
-          this.agent_characteristic
+        initialPrompt + " Your named is " + this.name 
+        + ". Your tone is " + this.agent_tone +
+          ". Your characteristic is " + this.agent_characteristic
       ),
       new MessagesPlaceholder("history"),
       HumanMessagePromptTemplate.fromTemplate("{input}"),
