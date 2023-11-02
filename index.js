@@ -22,15 +22,14 @@ io.on("connection", (socket) => {
 
     const response = await agent.chatWithUser(data.text);
     console.log(response);
-    const [name, text] = response.includes(":")
-      ? response.split(":")
-      : `Tom:${response}`.split(":");
+    const { name, role, text } = JSON.parse(response);
     socket.emit("GPTResponse", [
       data,
       {
         type: "AI",
         name,
         text,
+        role,
         id: `${socket.id}${Math.random()}`,
         socketID: socket.id,
       },
