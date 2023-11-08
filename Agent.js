@@ -10,7 +10,7 @@ class Agent {
   constructor() {
     this.model = new OpenAI({
       temperature: 0.9,
-      modelName: "gpt-3.5-turbo",
+      modelName: "gpt-3.5-turbo-1106",
     });
 
     this.chatPromptMemory = new ConversationSummaryBufferMemory({
