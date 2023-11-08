@@ -1,8 +1,7 @@
 const { Server } = require("node:http");
 const express = require("express");
 const socketIO = require("socket.io");
-const DevAgent = require("./DevAgent");
-const Agent = require("./Agent");
+const Agent = require("./agent");
 
 const PORT = 3001;
 const app = express();
@@ -48,14 +47,6 @@ io.on("connection", (socket) => {
 });
 
 app.get("/help", (req, res) => {
-  res.json({ message: "Reach out to ramaraja@vt.edu" });
-});
-
-// test chat with agent with get request
-app.get("/chat", async (req, res) => {
-  const agent = new DevAgent("Tom");
-  const response = await agent.chatWithUser("How are you today?");
-  console.log(response);
   res.json({ message: "Reach out to ramaraja@vt.edu" });
 });
 
