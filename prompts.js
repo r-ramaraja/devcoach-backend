@@ -19,7 +19,7 @@ const personas = [
   {{{{
       "name": string \\ the name of the persona responding to the message
       "role": string \\ the role of the persona responding to the message
-      "text": string \\ response message 
+      "text": string \\ response message, make sure newlines are escaped with \\n
   }}}}`,
   },
   {
@@ -43,7 +43,7 @@ const personas = [
   {{{{
       "name": string \\ the name of the persona responding to the message
       "role": string \\ the role of the persona responding to the message
-      "text": string \\ response message 
+      "text": string \\ response message, make sure newlines are escaped with \\n
   }}}}`,
   },
   {
@@ -66,7 +66,7 @@ const personas = [
   {{{{
       "name": string \\ the name of the persona responding to the message
       "role": string \\ the role of the persona responding to the message
-      "text": string \\ response message 
+      "text": string \\ response message, make sure newlines are escaped with \\n
   }}}}`,
   },
 ];
