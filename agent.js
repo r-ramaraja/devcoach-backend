@@ -16,7 +16,7 @@ class Agent {
     this.chatPromptMemory = new ConversationSummaryBufferMemory({
       memoryKey: "chat_history",
       llm: this.model,
-      maxTokenLimit: 100,
+      maxTokenLimit: 400,
     });
 
     const default_prompt = PromptTemplate.fromTemplate(personas[1]["promptTemplate"]);
@@ -67,6 +67,11 @@ class Agent {
     try {
       const response = await this.model.predict(personas[2].developPhaseInitialPrompt);
 
+      await this.chatPromptMemory.saveContext(
+        { input: "What's the user story?" },
+        { output: response }
+      );
+
       return JSON.stringify({
         name: personas[2]["name"],
         role: personas[2]["role"],
@@ -88,7 +93,11 @@ class Agent {
         input: `${message}\n\nHere's the code written by the novice developer:\n${code}`,
       });
 
-      return response.text;
+      return JSON.stringify({
+        name: personas[2]["name"],
+        role: personas[2]["role"],
+        text: response.text,
+      });
     } catch (e) {
       console.log(e);
       return JSON.stringify({
