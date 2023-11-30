@@ -16,10 +16,37 @@ io.on("connection", (socket) => {
   console.log(`⚡: ${socket.id} user just connected!`);
   const agent = new Agent();
 
-  socket.on("userMessage", async (data) => {
-    console.log(data);
+  socket.on("developPhaseInitialMessage", async () => {
+    const response = await agent.getUserStory();
 
-    const response = await agent.chatWithUser(data.text);
+    console.log(response);
+    const { name, role, text } = JSON.parse(response);
+    socket.emit("GPTResponse", [
+      {
+        type: "AI",
+        name,
+        text,
+        role,
+        time: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        }),
+        id: `${socket.id}${Math.random()}`,
+        socketID: socket.id,
+      },
+    ]);
+  });
+
+  socket.on("userMessage", async (data) => {
+    console.log("🚀 ~ file: index.js:20 ~ socket.on ~ data:", data);
+    let response;
+    if (data.phase && data.phase === "develop") {
+      response = await agent.chatWithUserInDevelopPhase(data.text, data.code);
+    } else if (data.phase && data.phase === "design") {
+      response = await agent.chatWithUserInDesignPhase(data.text);
+    }
+
     console.log(response);
     const { name, role, text } = JSON.parse(response);
     socket.emit("GPTResponse", [
